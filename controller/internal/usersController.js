@@ -12,8 +12,9 @@ exports.fetchUser = async (request, response, next) => {
 };
 exports.createUser = async (request, response, next) => {
   try {
-    const { firstName, middleName, lastName, email } = request.body;
-    const user = new userModel(firstName, middleName, lastName, email);
+    // firstName, middleName, lastName,
+    const { email } = request.body;
+    const user = new userModel(email);
     const data = await user.createUser();
     response.status(200).json(data);
   } catch (error) {
@@ -26,9 +27,7 @@ exports.currentLoggedUser = async (request, response, next) => {
     console.log(email);
     const user = new userModel();
     const data = await user.currentLoggedUser(email);
-
     response.status(200).json(data);
-    // response.send("api running");
   } catch (error) {
     next(error);
   }

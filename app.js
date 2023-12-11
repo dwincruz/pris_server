@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: false }));
 
 //define endpoints
 app.use("/api/other-concerns", require("./routes/internal/otherConcernRoutes"));
-
 app.use("/api/users", require("./routes/internal/userRoutes"));
 
+app.use("/api/google/redirect", require("./routes/internal/uploadFileRoutes"));
 //check connection
 app.use((err, req, res, next) => {
   console.log(err.back);

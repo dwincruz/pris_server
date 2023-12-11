@@ -1,19 +1,22 @@
 const database = require("../../config/database");
 
 class User {
-  constructor(firstName, middleName, lastName, email) {
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
+  // constructor(firstName, middleName, lastName, email) {
+  //   this.firstName = firstName;
+  //   this.middleName = middleName;
+  //   this.lastName = lastName;
+  //   this.email = email;
+  // }
+  constructor(email) {
     this.email = email;
   }
   async createUser() {
-    const query = `INSERT INTO users(first_name, middle_name, last_name, email) VALUES('${this.firstName}','${this.middleName}', '${this.lastName}', '${this.email}')`;
+    const query = `INSERT INTO user(email) VALUES('${this.email}')`;
     const rows = await database.execute(query);
     return rows;
   }
   static async fetchUser() {
-    const query = `SELECT * FROM users`;
+    const query = `SELECT * FROM user`;
     const [rows, fields] = await database.execute(query);
     const filteredRows = rows.filter((row) => !Buffer.isBuffer(row._buff));
     return filteredRows;
@@ -33,7 +36,7 @@ class User {
   //const result = await instance.ExampleMathod('val');
 
   async currentLoggedUser(id) {
-    const query = `SELECT id FROM users WHERE email = '${id}'`;
+    const query = `SELECT id FROM user WHERE email = '${id}'`;
     const [rows, fields] = await database.execute(query);
     const filteredRows = rows.filter((row) => !Buffer.isBuffer(row._buff));
     return filteredRows[0].id;

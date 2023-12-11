@@ -1,18 +1,20 @@
 const database = require("../../config/database");
 const User = require("./userModel");
-class otherConcern extends User {
-  constructor(monthYear, remarks, currentUser) {
+class OtherConcern extends User {
+  constructor(monthYear, remarks, file, currentUser) {
     super();
     this.monthYear = monthYear;
     this.remarks = remarks;
+    this.file = file;
     this.currentUser = currentUser; //instead of recreating a method we inherit this method to the parent
   }
   async createComplaint() {
     const currentUserData = await super.currentLoggedUser(this.currentUser);
-
     const query = `INSERT INTO other_concerns(month_and_year, remarks, creatorId, date_created) VALUES('${this.monthYear}', '${this.remarks}', ${currentUserData}, NOW())`;
-    console.log(query);
     const rows = await database.execute(query);
+
+    // const uploads = `INSERT INTO uploads(concern_id, file_name, file_path, date_uploaded) VALUES('${rows[0].insertId}', '${this.file}', '' , NOW())`;
+    console.log("last inserted id: ", rows[0].insertId);
     return rows;
   }
   static async fetchComplaint() {
@@ -23,4 +25,4 @@ class otherConcern extends User {
   }
 }
 
-module.exports = otherConcern;
+module.exports = OtherConcern;
