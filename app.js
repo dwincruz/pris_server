@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+
 app.use(
   cors({
     credentials: true,
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/other-concerns", require("./routes/internal/otherConcernRoutes"));
 app.use("/api/users", require("./routes/internal/userRoutes"));
 
-app.use("/api/google/redirect", require("./routes/internal/uploadFileRoutes"));
+app.use("/api/file-storage/", require("./routes/internal/uploadFileRoutes"));
 //check connection
 app.use((err, req, res, next) => {
   console.log(err.back);
