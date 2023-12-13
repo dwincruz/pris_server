@@ -6,7 +6,7 @@ class OtherConcern extends User {
     this.monthYear = monthYear;
     this.remarks = remarks;
     this.file = file;
-    this.currentUser = currentUser; //instead of recreating a method we inherit this method to the parent
+    this.currentUser = currentUser;
   }
   async createComplaint() {
     const currentUserData = await super.currentLoggedUser(this.currentUser);
@@ -15,7 +15,7 @@ class OtherConcern extends User {
 
     // const uploads = `INSERT INTO uploads(concern_id, file_name, file_path, date_uploaded) VALUES('${rows[0].insertId}', '${this.file}', '' , NOW())`;
     console.log("last inserted id: ", rows[0].insertId);
-    return rows;
+    return rows[0].insertId;
   }
   static async fetchComplaint() {
     const query = `SELECT * FROM other_concerns`;
