@@ -17,6 +17,7 @@ exports.createComplaint = async (request, response, next) => {
     console.log(request.body);
     const post = new otherConcernModel(monthYear, remarks, currentUser);
     const data = await post.createComplaint();
+
     response.status(200).json(data);
   } catch (error) {
     next(error);

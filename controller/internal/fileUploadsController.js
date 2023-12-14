@@ -4,6 +4,7 @@ const stream = require("stream");
 const path = require("path");
 
 const uploadsModel = require("../../models/internal/uploadsModel");
+const { response } = require("express");
 // const googleDrive = require("../../services/googleService/googleDriveUpload");
 exports.uploads = async (request, response, next) => {
   try {
@@ -24,6 +25,7 @@ exports.uploads = async (request, response, next) => {
     });
     const uploadSelectedFiles = async (fileObject) => {
       const bufferStream = new stream.PassThrough();
+      let uploadedFiles = [];
       bufferStream.end(fileObject.buffer);
       const { data } = await google
         .drive({ version: "v3", auth })
@@ -39,16 +41,40 @@ exports.uploads = async (request, response, next) => {
           },
           fields: "id,name",
         });
-      console.log(`successfully uploaded a file: ${data.name} - ${data.id}`);
+
+      // uploadedFiles.push();
+      // console.log(uploadedFiles);
+
+      return {
+        fileName: data.name,
+        fileId: data.id,
+      };
     };
-    const { fileName } = request.body;
-    const file = new uploadsModel(fileName);
 
     const selectedFiles = request.files;
-    selectedFiles.filter(async (eachFile) => {
-      await uploadSelectedFiles(eachFile);
-    });
+    const sentFiles = await Promise.all(
+      selectedFiles.map(async (eachFile) => {
+        return await uploadSelectedFiles(eachFile);
+      })
+    );
+    // console.log(filesSentFromDrives);
+    // console.log(sentFiles);
+    const file = new uploadsModel(
+      sentFiles,
+      "10-14-1998",
+      "remarks",
+      "aldwinceazarcruz@gmail.com"
+    );
+    file.createUpload();
+
     response.status(200).json({ status: "uploaded" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.lastInsertedId = async (request, response, next) => {
+  try {
   } catch (error) {
     next(error);
   }

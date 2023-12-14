@@ -1,11 +1,10 @@
 const database = require("../../config/database");
 const User = require("./userModel");
 class OtherConcern extends User {
-  constructor(monthYear, remarks, file, currentUser) {
+  constructor(monthYear, remarks, currentUser) {
     super();
     this.monthYear = monthYear;
     this.remarks = remarks;
-    this.file = file;
     this.currentUser = currentUser;
   }
   async createComplaint() {
