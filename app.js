@@ -15,7 +15,7 @@ app.use(express.json()); // parse json bodies in request object
 app.use(express.urlencoded({ extended: false }));
 
 //define endpoints
-app.use("/api/other-concerns", require("./routes/internal/otherConcernRoutes"));
+app.use("/api/other-concerns", require("./routes/internal/concernRoutes"));
 app.use("/api/users", require("./routes/internal/userRoutes"));
 
 app.use("/api/file-storage/", require("./routes/internal/uploadFileRoutes"));
